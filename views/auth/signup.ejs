@@ -1,0 +1,33 @@
+<%- include('../includes/userheader.ejs') %>
+</head>
+<body>
+<%- include('../includes/usernav.ejs') %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 mt-4">
+                <h2> Sign-Up</h2>
+                   <div class="card-body">
+                    <form action="/sign-up" method="post"> 
+                  <div class="mb-3">
+                    <label for="email" class="form-label">email</label>
+                    <input type="email" class="form-control"  name="email" placeholder="Email">
+                  </div>
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control"  name="password" placeholder="Password">
+                  </div>
+                  <div class="mb-3">
+                    <label for="Confirm password" class="form-label">Confirm password</label>
+                    <input type="password" class="form-control"  name="confirm_password" placeholder="Confirm Password">
+                  </div>
+                   <input type="submit" class="btn btn-primary" value="Submit">
+                </form>
+                  </div>
+        </div>
+        </div>
+    </div>
+</div>   
+
+<%- include('../includes/userfooter.ejs') %>
+
+

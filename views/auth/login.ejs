@@ -1,0 +1,30 @@
+<%- include('../includes/userheader.ejs') %>
+</head>
+<body>
+<%- include('../includes/usernav.ejs') %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 mt-4">
+                <h2> User Login </h2>
+                   <div class="card-body">
+                    <form action="/login" method="post" novalidate> 
+                  <div class="mb-3">
+                    <label for="email" class="form-label">email</label>
+                    <input type="email" class="form-control"  name="email" placeholder="Email">
+                  </div>
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control"  name="password" placeholder="Password">
+                  </div>
+                
+                   <input type="submit" class="btn btn-primary" value="Login">
+                </form>
+                  </div>
+        </div>
+        </div>
+    </div>
+</div>   
+
+<%- include('../includes/userfooter.ejs') %>
+
+

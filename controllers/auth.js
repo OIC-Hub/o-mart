@@ -1,18 +1,16 @@
 const User = require('../models/users')
+const {validationResult} = require('express-validator/check')
 exports.signupPage = (req, res)=>{
-    res.render('auth/signup.ejs',{title:'Sign-Up'} );
-}
-exports.postSignup=(req, res)=>{
-   const {email, password} = req.body;
-   let role="user";
-    User.create({
-        email:email,
-        password: password,
-        role: role
-    }).then(user =>{
-       res.redirect('/sign-up');
-    }).catch(err => console.log(err))
 
+    let errors = req.flash('errors');
+   res.render('auth/signup.ejs',{title:'Sign-Up', errorMessage: errors} );
+}
+exports.postSignup=(req, res) => {
+    let errors = validationResult(req)
+    if (!errors.isEmpty()) {
+       req.flash('errors', errors.array())
+       res.redirect('/sign-up')
+    }
 }
 exports.loginPage = (req, res)=>{
     res.render('auth/login', {title:'Login'});

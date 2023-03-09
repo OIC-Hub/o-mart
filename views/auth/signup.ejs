@@ -15,7 +15,6 @@
                      <div><%= error.msg %></div>
 
                   <%}%>
-
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               <%} %>
@@ -23,15 +22,21 @@
                     <form action="/sign-up" method="post"> 
                   <div class="mb-3">
                     <label for="email" class="form-label">email</label>
-                    <input type="email" class="form-control"  name="email" placeholder="Email">
+                    <input type="email" class="form-control"
+                      name="email" placeholder="Email"
+                       value="<%= oldInput.length >0 && oldInput[0].email ? oldInput[0].email : ''  %>">
                   </div>
                   <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control"  name="password" placeholder="Password">
+                    <input type="password" 
+                      value="<%= oldInput.length >0 && oldInput[0].password ? oldInput[0].password : ''  %>"
+                    class="form-control"  name="password" placeholder="Password">
                   </div>
                   <div class="mb-3">
                     <label for="Confirm password" class="form-label">Confirm password</label>
-                    <input type="password" class="form-control"  name="confirm_password" placeholder="Confirm Password">
+                    <input type="password" class="form-control"
+                    value="<%= oldInput.length >0 && oldInput[0].confirmPassword ? oldInput[0].confirmPassword : ''  %>"
+                    name="confirm_password" placeholder="Confirm Password">
                   </div>
                    <input type="submit" class="btn btn-primary" value="Submit">
                 </form>

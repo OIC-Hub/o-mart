@@ -6,15 +6,20 @@
     <div class="row">
         <div class="col-md-6 offset-md-3 mt-4">
                 <h2> User Login </h2>
+                <%= JSON.stringify(loginErrors) %>
+    
                    <div class="card-body">
                     <form action="/login" method="post" novalidate> 
                   <div class="mb-3">
                     <label for="email" class="form-label">email</label>
                     <input type="email" class="form-control"  name="email" placeholder="Email">
+                    <div style="color:red"><%= userErr %></div>
                   </div>
                   <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control"  name="password" placeholder="Password">
+                     <%= passwordErr %>
+                    <div style="color:red"><%= passwordErr %></div>
                   </div>
                 
                    <input type="submit" class="btn btn-primary" value="Login">

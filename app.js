@@ -2,7 +2,8 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const flash = require('connect-flash')
+const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
 // Models
  const User = require('./models/users')
  const Product = require('./models/products');
@@ -18,6 +19,7 @@ const sequelize = require('./database/db');
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const Session = require('./models/sessions');
 const app = express();
+app.use(cookieParser())
 app.use(session({
     secret:'my secret',
     resave:false,
@@ -36,6 +38,7 @@ app.set('view engine', 'ejs')
 app.use(pagesRoutes)
 app.use(Authroute)
 // Listen to the port
+// User.sync({alter:true})
 sequelize.sync().then(()=>{
     app.listen(3001, ()=>{
         console.log('Connected to port 3000')

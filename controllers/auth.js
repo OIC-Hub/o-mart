@@ -1,6 +1,7 @@
 const User = require('../models/users')
 const {validationResult} = require('express-validator')
 const bcrypt =require('bcrypt');
+const session = require('express-session');
 exports.signupPage = (req, res)=>{
 
     let errors = req.flash('errors');
@@ -34,14 +35,14 @@ exports.postSignup=(req, res) => {
 
 
 }
+
+// Login Controller
 exports.loginPage = (req, res)=>{
     res.render('auth/login',
      {
         title:'Login',
          loginErrors: req.flash('loginErrors'),
-        userErr: req.flash('userErr'),
-        passwordErr:req.flash('passwordErr')
-        
+        userErr: req.flash('userErr'), 
     });
 }
 exports.login=(req, res)=>{
@@ -68,18 +69,18 @@ exports.login=(req, res)=>{
     })
 }
 
-return user
-}).then(user=>{
-   
-    if(user.password !== password){
-        req.flash('PasswordErr', 'Invalid password')
-   return  req.session.save(()=>{
-    res.redirect('/login')  
-    }) 
-    }
-    req.session.isLoggedIn=true;
-    req.session.user = user
-  return  res.redirect('/')
+bcrypt.compare(password, user.password)
+.then(match =>{
+  if( ! match){
+    req.flash('userErr', 'Inavid email or password')
+   return req.session.save(()=>{
+        res.redirect('/login')
+    })
+  }
+  req.session.isLoggedIn=true;
+  req.session.user = user
+  res.redirect('/')
+})
 }).catch(err => console.log(err))
   
 }

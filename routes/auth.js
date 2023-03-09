@@ -33,7 +33,7 @@ router.get('/login', authController.loginPage);
 router.post('/login',[
     check('email', "Email doest not exist or invalid email").notEmpty().withMessage('Your email is required')
     .isEmail().withMessage('Invalid email').trim(),
-    check('password').notEmpty().trim()
+    check('password', 'Incorrect password').notEmpty().trim()
 ], authController.login);
 
 

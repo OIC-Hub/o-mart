@@ -6,8 +6,21 @@
     <div class="row">
         <div class="col-md-6 offset-md-3 mt-4">
                 <h2> User Login </h2>
-                <%= JSON.stringify(loginErrors) %>
-    
+              <%   
+                    if(loginErrors.length > 0){
+                    %>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                      <strong>Oops!</strong>
+                      <% for(let error of loginErrors){ %>
+                        <div>
+                           <%= error.msg %>
+                        </div>
+                     <% } %>
+          
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                   <% }
+              %>
                    <div class="card-body">
                     <form action="/login" method="post" novalidate> 
                   <div class="mb-3">
@@ -18,7 +31,6 @@
                   <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control"  name="password" placeholder="Password">
-                     <%= passwordErr %>
                     <div style="color:red"><%= passwordErr %></div>
                   </div>
                 
@@ -29,7 +41,6 @@
         </div>
     </div>
 </div>   
-
 <%- include('../includes/userfooter.ejs') %>
 
 

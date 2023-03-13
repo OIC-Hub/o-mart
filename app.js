@@ -12,6 +12,8 @@ Routes
 */
 // Authentication Routes
 const Authroute = require('./routes/auth')
+//Admin Routes
+const adminRoutes =require('./routes/admin')
 // Pages Routes
 
  const pagesRoutes = require('./routes/pages');
@@ -34,13 +36,20 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({extended:true}));
 
 app.set('view engine', 'ejs')
+
+app.use((req, res, next)=>{
+    res.locals.isLoggedIn = req.session.isLoggedIn;
+    res.locals.user =req.session.user
+    next()
+})
 // pages middleware
 app.use(pagesRoutes)
 app.use(Authroute)
+app.use(adminRoutes);
 // Listen to the port
 // User.sync({alter:true})
 sequelize.sync().then(()=>{
-    app.listen(3001, ()=>{
+    app.listen(3000, ()=>{
         console.log('Connected to port 3000')
     })
 })

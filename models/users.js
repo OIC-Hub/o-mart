@@ -24,7 +24,9 @@ const user = sequelize.define('users', {
     password:{
         type: DataTypes.STRING(200),
         allowNull:false,
-    }
+    },
+    resetToken: DataTypes.STRING,
+    resetTokenExpiration: DataTypes.DATE
 });
 
 module.exports = user;

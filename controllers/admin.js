@@ -6,31 +6,40 @@ exports.adminHomePage= (req, res)=>{
 }
 // Product
 exports.addProductPage=(req, res)=>{
-    res.render('admin/add-product.ejs', {title:'Add product'});
+     let error = req.flash('productErr');
+     let success= req.flash('success');
+    res.render('admin/add-product.ejs',
+     {title:'Add product',
+    error: error, success:success});
 }
 exports.addProduct=(req, res)=>{
     const {title, price, description, image } = req.body;
+     
+    
     const errors= validationResult(req);
-    if(! errors.isEmpty()){ 
-        return res.status(422).json(errors.array())
-    }
+    if(! errors.isEmpty()){
+        req.flash('productErr', errors.array())
+       return  req.session.save(()=>{
+          res.redirect('/add-product')
+        })
+      }
+    let imagepath = req.file.destination + req.file.filename 
     Product.create({
     title:title,
     price:price,
     description:description,
-    image:image,
+    image:imagepath,
     userId: req.session.user.id
-  }).then(user=>{
-     return res.status(200).json([
-        {success: 'success'},
-        user
-     ])
+  }).then(product=>{
+        if(product){
+          req.flash('succes', 'Product added successfully')
+         req.session.save(()=>{
+          res.redirect('/add-product')
+         })
+          
+        }
   }).catch(err => {
-    return res.status(422).json(
-        [
-        {error: 'error'},
-         err
-        ])
+   console.log(err)
   })
 }
 exports.logout=(req, res)=>{

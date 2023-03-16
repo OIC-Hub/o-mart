@@ -10,15 +10,19 @@ const product = sequelize.define('products', {
     },
     title:{
         type: DataTypes.STRING(50),
-        allowNull:true,
+        allowNull:false,
     },
     price:{
         type: DataTypes.STRING(50),
         allowNull:false,
-        unique: true
+       
+    },
+    description:{
+        type: DataTypes.TEXT,
+        
     },
     image:{
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(200),
         allowNull:false,
     }
 });

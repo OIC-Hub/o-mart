@@ -4,6 +4,7 @@ const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
+const multer = require('multer')
 // Models
  const User = require('./models/users')
  const Product = require('./models/products');
@@ -34,9 +35,16 @@ app.use(session({
 app.use(flash())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({extended:true}));
-
+  let storage = multer.diskStorage({
+    destination:(req, file, cb)=>{
+     cb(null, 'public/images')
+    },
+    filename:(req, file, cb)=>{
+      cb(null, Date.now() + "-" + 'profile' + file.originalname     )
+    }
+  })
+app.use(multer({storage: storage}).single('image'))
 app.set('view engine', 'ejs')
-
 app.use((req, res, next)=>{
     res.locals.isLoggedIn = req.session.isLoggedIn;
     res.locals.user =req.session.user
@@ -47,7 +55,7 @@ app.use(pagesRoutes)
 app.use(Authroute)
 app.use(adminRoutes);
 // Listen to the port
-// User.sync({alter:true})
+// Product.sync({alter:true})
 sequelize.sync().then(()=>{
     app.listen(3000, ()=>{
         console.log('Connected to port 3000')

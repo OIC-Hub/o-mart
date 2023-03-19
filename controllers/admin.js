@@ -2,7 +2,37 @@ const Product =require('../models/products');
 // Pages controllers
 const {validationResult} = require('express-validator');
 exports.adminHomePage= (req, res)=>{
- res.render('admin/index.ejs', {title:'Home'});
+  let page = Number.parseInt(req.query.page) || 1;
+ let totalProducts;
+  let totalItem= 5;
+  Product.count().then(totalProduct =>{
+    totalProducts = totalProduct
+    Product.findAll({ 
+      offset:(page - 1) * totalItem,
+       limit: totalItem
+       })
+  .then(products =>{
+    if(products){
+     return res.render('admin/index.ejs',
+      {
+        title:'Home',
+       products: products,
+       previousPage: page - 1, 
+       currentPage: page, 
+       hasNextPage: totalProducts > totalItem * page, 
+       hasPreviousPage: page > 1,
+       nextPage: page + 1, 
+       pages: totalProducts/totalItem 
+
+
+      });
+    }
+  })
+  .catch(err=> console.log(err))
+
+  }).catch(err => console.log(err))
+
+ 
 }
 // Product
 exports.addProductPage=(req, res)=>{
@@ -33,7 +63,7 @@ exports.addProduct=(req, res)=>{
   }).then(product=>{
         if(product){
           req.flash('succes', 'Product added successfully')
-         req.session.save(()=>{
+        return  req.session.save(()=>{
           res.redirect('/add-product')
          })
           

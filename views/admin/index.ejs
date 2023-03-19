@@ -2,6 +2,39 @@
 </head>
 <body>
     <%- include('../includes/adminnav.ejs') %>
-    <h2>Admin Home</h2>
+    
+    <div class="container">
+        
+        <div class="row">
+            <h2 class="text-center mb-4">Admin Home</h2>
+            <% if(products.length >0){
+                for(let product of products){ %>     
+   <div class="col-md-3 mb-5">
+    <img src="<%= product.image %>" class="img-fluid" style="height: 250px;">
+    <div class="mt-4">
+        <a href="/product-update" class="btn btn-warning"> Update</a>
+        <form action="/product-delete" method="post" style="display:inline-block">
+        <button class="btn btn-danger">Delete</button>
+        </form>
+    </div> 
+   </div>
+   <%  }
+} %>
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+      <%  if(hasPreviousPage){ %>
+            <li class="page-item"><a class="page-link" href="?page=<%= previousPage%>">Previous</a></li>
+      <%  } %>
+      <% for(let i =1; i <= pages; i++){ %>
+      <li class="page-item"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+       <%  } %>
+      <%  if(hasNextPage){ %>
+        <li class="page-item"><a class="page-link" href="?page=<%= nextPage %>">Next</a></li>
+  <%  } %>
+      
+    </ul>
+  </nav>
+        </div>
+    </div>
 
     <%- include('../includes/adminfooter.ejs') %>

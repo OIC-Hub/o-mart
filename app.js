@@ -40,7 +40,8 @@ app.use(express.urlencoded({extended:true}));
      cb(null, 'public/images')
     },
     filename:(req, file, cb)=>{
-      cb(null, Date.now() + "-" + 'profile' + file.originalname     )
+    let extension = file.mimetype.split('/')[1];
+      cb(null, Date.now() + "-" + req.body.title + '.' + extension)
     }
   })
 app.use(multer({storage: storage}).single('image'))

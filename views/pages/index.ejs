@@ -2,8 +2,39 @@
 </head>
 <body>
 <%- include('../includes/usernav.ejs') %>
- <h2>Home Page</h2>
+ <div class="container">  
+    <div class="row">
+        <h2 class="text-center mb-4">Our Products</h2>
+        <% if(products.length >0){
+            for(let product of products){ %>     
+<div class="col-md-3 mb-5">
+<img src="<%= product.image %>" class="img-fluid" style="height: 250px;">
+<div class="mt-4">
+    <a href="/product-update" class="btn btn-warning"> Update</a>
+    <form action="/product-delete" method="post" style="display:inline-block">
+    <button class="btn btn-danger">Delete</button>
+    </form>
+</div> 
+</div>
+<%  }
+} %>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <% if(hasprevious){ %>
+            <li class="page-item"><a class="page-link" href="?page=<%= previousValue %>">Previous</a></li>
+       <% } %>
+       <% for (let i =1;  i<= totalPages; i++ ){ %>
+        <li class="page-item"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
 
+      <% } %>
+     
+      
+      <% if(hasNext){ %>
+        <li class="page-item"><a class="page-link" href="?page=<%= nextvalue %>">Next</a></li>
+   <% } %>
+      
+    </ul>
+  </nav>
 <%- include('../includes/userfooter.ejs') %>
 
 

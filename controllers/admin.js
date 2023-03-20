@@ -4,7 +4,7 @@ const {validationResult} = require('express-validator');
 exports.adminHomePage= (req, res)=>{
   let page = Number.parseInt(req.query.page) || 1;
  let totalProducts;
-  let totalItem= 5;
+  let totalItem= 10;
   Product.count().then(totalProduct =>{
     totalProducts = totalProduct
     Product.findAll({ 
@@ -53,7 +53,8 @@ exports.addProduct=(req, res)=>{
           res.redirect('/add-product')
         })
       }
-    let imagepath = req.file.destination + req.file.filename 
+    let imagepath = '/images/' + req.file.filename
+    console.log(imagepath)
     Product.create({
     title:title,
     price:price,

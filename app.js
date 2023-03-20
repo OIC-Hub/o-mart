@@ -15,8 +15,9 @@ Routes
 const Authroute = require('./routes/auth')
 //Admin Routes
 const adminRoutes =require('./routes/admin')
+// errors
+ const errorsController = require('./controllers/errors');
 // Pages Routes
-
  const pagesRoutes = require('./routes/pages');
 const sequelize = require('./database/db');
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
@@ -40,8 +41,11 @@ app.use(express.urlencoded({extended:true}));
      cb(null, 'public/images')
     },
     filename:(req, file, cb)=>{
+      console.log(file)
+      console.log(req.body)
     let extension = file.mimetype.split('/')[1];
-      cb(null, Date.now() + "-" + req.body.title + '.' + extension)
+    console.log(extension)
+      cb(null, Date.now() + "-" + req.body.title + '.'+ extension)
     }
   })
 app.use(multer({storage: storage}).single('image'))
@@ -55,6 +59,11 @@ app.use((req, res, next)=>{
 app.use(pagesRoutes)
 app.use(Authroute)
 app.use(adminRoutes);
+app.get('/500', errorsController.error500);
+app.use(errorsController.error404);
+app.use((error, req, res, next)=>{
+   return res.redirect('/500')
+})
 // Listen to the port
 // Product.sync({alter:true})
 sequelize.sync().then(()=>{

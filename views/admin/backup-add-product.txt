@@ -1,0 +1,29 @@
+<!-- <%- include('../includes/adminheader.ejs') %>
+</head>
+<body>
+    <%- include('../includes/adminnav.ejs') %>
+    <h2>Admin Add Product</h2>
+    <div class="text-danger"><%= JSON.stringify(error) %></div>
+    <div class="text-success" ><%= success %></div>
+    <div class="container">
+        <form action="/add-product" method="post" enctype="multipart/form-data">
+            <p>
+                <label>Title</label> <br>
+                <input type="text" name="title" id="">
+            </p>
+            <p>
+                <label>Price</label> <br>
+                <input type="number" name="price" id="" step="00.00">
+            </p>
+            <p>
+                <label>description</label> <br>
+                <input type="text" name="description" id="">
+            </p>
+            <p>
+                <label>Image</label> <br>
+                <input type="file" name="image" id="">
+            </p>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+<%- include('../includes/adminfooter.ejs') %> -->

@@ -36,6 +36,7 @@ app.use(session({
 app.use(flash())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({extended:true}));
+app.use(express.json())
   let storage = multer.diskStorage({
     destination:(req, file, cb)=>{
      cb(null, 'public/images')
@@ -67,7 +68,7 @@ app.use((error, req, res, next)=>{
 // Listen to the port
 // Product.sync({alter:true})
 sequelize.sync().then(()=>{
-    app.listen(3000, ()=>{
-        console.log('Connected to port 3000')
+    app.listen(3001, ()=>{
+        console.log('Connected to port 3001')
     })
 })

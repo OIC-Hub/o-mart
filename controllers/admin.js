@@ -48,10 +48,7 @@ exports.addProduct=(req, res)=>{
     
     const errors= validationResult(req);
     if(! errors.isEmpty()){
-        req.flash('productErr', errors.array())
-       return  req.session.save(()=>{
-          res.redirect('/add-product')
-        })
+        return res.status(422).json(errors.array())
       }
     let imagepath = '/images/' + req.file.filename
     console.log(imagepath)
@@ -63,15 +60,15 @@ exports.addProduct=(req, res)=>{
     userId: req.session.user.id
   }).then(product=>{
         if(product){
-          req.flash('succes', 'Product added successfully')
-        return  req.session.save(()=>{
-          res.redirect('/add-product')
-         })
-          
+       return res.status(201).json({
+        success:true
+       })  
         }
   }).catch(err => {
-   console.log(err)
-  })
+      return res.status(500).json({
+        error: err,
+        msg:"Something went wrong"
+      })})
 }
 exports.logout=(req, res)=>{
     req.session.destroy(()=>{

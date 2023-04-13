@@ -3,27 +3,79 @@
 <body>
     <%- include('../includes/adminnav.ejs') %>
     <h2>Admin Add Product</h2>
-    <div class="text-danger"><%= JSON.stringify(error) %></div>
-    <div class="text-success" ><%= success %></div>
+    <div id="error"></div>
+    <div id="success"></div>
     <div class="container">
-        <form action="/add-product" method="post" enctype="multipart/form-data">
+        <form id="productForm">
             <p>
                 <label>Title</label> <br>
-                <input type="text" name="title" id="">
+                <input type="text" name="title" id="title">
             </p>
             <p>
                 <label>Price</label> <br>
-                <input type="number" name="price" id="" step="00.00">
+                <input type="number" name="price" id="price" step="00.00">
             </p>
             <p>
                 <label>description</label> <br>
-                <input type="text" name="description" id="">
+                <input type="text" name="description" id="description">
             </p>
             <p>
                 <label>Image</label> <br>
-                <input type="file" name="image" id="">
+                <input type="file" name="image" id="image">
             </p>
-            <input type="submit" value="Submit">
+            <input type="submit" id="submit" value="Submit">
         </form>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+   let form=  document.getElementById('productForm');
+     form.addEventListener('submit', submitForm)
+      let loadStatus= document.getElementById('submit');
+     function submitForm (e){
+        e.preventDefault()
+        loadStatus.value="Loading..."
+        let description= document.getElementById('description').value;
+        let title= document.getElementById('title').value;
+        let price= document.getElementById('price').value;
+        let image= document.getElementById('image').files[0];
+          let formData= new FormData()
+           formData.append('title',  title)
+           formData.append('description',  description)
+           formData.append('price', price)
+           formData.append('image',  image)
+           axios.post('/add-product', formData)
+        .then(response=>{
+            loadStatus.value="Submit"
+            if(response.data.success){
+                document.getElementById('success').innerHTML=`
+                <div class="alert alert-danger alert-dismissible">
+     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      <strong>Success!</strong> Product submitted successfully 
+     </div>`
+
+                setTimeout(()=>{
+                    window.location='/admin'
+                    }, 3000)
+            }
+        }).catch(err =>{
+            loadStatus.value="Submit"
+           if(err.response.status == 422){
+          let errors =''
+          for(let error of err.response.data){
+            errors += `
+                ${error.msg} <br>
+            `
+          }
+
+          document.getElementById('error').innerHTML=`
+          <div class="alert alert-danger alert-dismissible">
+     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      <strong>Opps!</strong> ${errors} 
+     </div>`
+           }
+            
+        })
+
+   }    
+</script>
 <%- include('../includes/adminfooter.ejs') %>
